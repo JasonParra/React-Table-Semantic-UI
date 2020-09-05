@@ -1,4 +1,4 @@
-# cryptoTracker
+# React Table Semantic UI
 
 ## Getting Started
 
