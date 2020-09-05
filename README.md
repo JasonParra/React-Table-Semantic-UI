@@ -10,8 +10,9 @@ React Component example of semantic-ui table featuring sorting, page fotter and 
 3. Search bar
 
 ### Prerequisites
-
+```
 nodejs
+```
 
 ### Installing
 
@@ -21,7 +22,7 @@ npn install
 ### Running
 
 ```
-npm start
+npm run dev
 ```
 
 ### Simple Example Usage
