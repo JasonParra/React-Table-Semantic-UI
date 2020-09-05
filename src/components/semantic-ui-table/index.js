@@ -8,7 +8,6 @@ class CustomTable extends PureComponent {
   state = {
     page: 0,
     pageSelection: null,
-    dataSorted: null,
     searchQuery: "",
     header: ""
   }
@@ -27,7 +26,7 @@ class CustomTable extends PureComponent {
         this.setState({
           searchQuery,
           pageSelection: [0, defaultPages],
-          page: 0
+          page: 0,
         })
     }
   }
@@ -51,9 +50,8 @@ class CustomTable extends PureComponent {
 
   handleSort = (header) => {
     const { defaultPages } = this.props
-
     this.setState({
-      header: header,
+      header,
       [header]: this.state[header] === 'asc' ? 'desc' : 'asc',
       pageSelection: [0, defaultPages],
       page: 0
@@ -77,13 +75,18 @@ class CustomTable extends PureComponent {
         obj[key] = item[key];
       }
       for (let key of Object.keys(obj)) {
-        let value = obj[key];
-        let re = new RegExp("W*(" + query + ")W*");
-        if (re.test(value.toString().toLowerCase())) {
-          return true;
-        } else if (re.test(value)) {
-          return true;
+        try {
+          let value = obj[key];
+          let re = new RegExp("W*(" + query + ")W*");
+          if (re.test(value.toString().toLowerCase())) {
+            return true;
+          } else if (re.test(value)) {
+            return true;
+          }
+        } catch (e) {
+          return false
         }
+
       }
     })
     return filtered
@@ -110,8 +113,8 @@ class CustomTable extends PureComponent {
   }
 
   handleFooter = (i) => {
-    const { defaultPages, data } = this.props
-    const pagesQ = Math.ceil(data.length / (defaultPages))
+    const { defaultPages, data, searchQuery } = this.props
+    const pagesQ = Math.ceil((searchQuery ? this.searchOnData(searchQuery, data) : data).length / (defaultPages))
 
     if (i >= 0 && i < pagesQ)
       this.setState({
