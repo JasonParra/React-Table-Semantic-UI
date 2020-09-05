@@ -2,16 +2,16 @@
 
 ## Getting Started
 
-React Component example of semantic-ui table featuring sorting, page fotter and global search bar.
+React Component example of semantic-ui table featuring sorting, page footer and global search bar.
 
 ### Features
 1. Sorting
-2. Page fotter
+2. Page footer
 3. Search bar
 
-### Live
+### Example App
 
-[a link](https://thawing-spire-39721.herokuapp.com/)
+[live example](https://thawing-spire-39721.herokuapp.com/)
 
 ### Prerequisites
 
