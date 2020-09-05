@@ -11,7 +11,7 @@ React Component example of semantic-ui table featuring sorting, page fotter and 
 
 ### Live
 
-[a link](https://github.com/user/repo/blob/branch/other_file.md)
+[a link](https://thawing-spire-39721.herokuapp.com/)
 
 ### Prerequisites
 
