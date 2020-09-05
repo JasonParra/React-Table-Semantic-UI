@@ -9,6 +9,7 @@ class CustomTable extends PureComponent {
     page: 0,
     pageSelection: null,
     dataSorted: null,
+    searchQuery: "",
     header: ""
   }
 
@@ -19,6 +20,17 @@ class CustomTable extends PureComponent {
     })
   }
 
+  componentDidUpdate = () => {
+    const { searchQuery, defaultPages } = this.props
+    if (searchQuery) {
+      if (this.state.searchQuery !== this.props.searchQuery)
+        this.setState({
+          searchQuery,
+          pageSelection: [0, defaultPages],
+          page: 0
+        })
+    }
+  }
 
   dynamicsort = (property, order) => {
     var sort_order = 1;
@@ -58,6 +70,25 @@ class CustomTable extends PureComponent {
     return data.sort(this.dynamicsort(label, this.state[header] === 'asc' ? 'desc' : 'asc'))
   }
 
+  searchOnData = (query, data) => {
+    const filtered = data.filter(item => {
+      let obj = {};
+      for (let key of Object.keys(item)) {
+        obj[key] = item[key];
+      }
+      for (let key of Object.keys(obj)) {
+        let value = obj[key];
+        let re = new RegExp("W*(" + query + ")W*");
+        if (re.test(value.toString().toLowerCase())) {
+          return true;
+        } else if (re.test(value)) {
+          return true;
+        }
+      }
+    })
+    return filtered
+  }
+
   renderHeaders = () => {
     const { headers } = this.props
     return <Table.Header >
@@ -90,11 +121,14 @@ class CustomTable extends PureComponent {
       })
   }
 
-  renderData = () => {
-    const { data, labels, isSearching, defaultPages } = this.props
+  getData = () => {
+    const { data, searchQuery, defaultPages } = this.props
     const { pageSelection, header } = this.state
 
     let _data = data
+
+    if (searchQuery)
+      _data = this.searchOnData(searchQuery, _data)
 
     if (header)
       _data = this.getSort(header, _data)
@@ -102,9 +136,13 @@ class CustomTable extends PureComponent {
     if (pageSelection)
       _data = _data.slice(...pageSelection)
 
-    if (isSearching)
-      _data = data.slice(...[0, defaultPages])
+    return _data
 
+  }
+
+  renderData = () => {
+    const { labels } = this.props
+    const _data = this.getData()
 
     return <Table.Body>
       {(_data || []).map(item => <Table.Row>
@@ -114,11 +152,14 @@ class CustomTable extends PureComponent {
     </Table.Body>
   }
 
+
+
+
   renderFotter = () => {
 
-    const { data, defaultPages, labels } = this.props
+    const { defaultPages, labels, data, searchQuery } = this.props
     const { page } = this.state
-    const pagesQ = Math.ceil(data.length / (defaultPages || 10))
+    const pagesQ = Math.ceil((searchQuery ? this.searchOnData(searchQuery, data) : data).length / (defaultPages || 10))
 
     let pages = []
 

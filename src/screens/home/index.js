@@ -186,24 +186,7 @@ export default class index extends PureComponent {
     })
   }
 
-  searchOnData = (query, data) => {
-    const filtered = data.filter(item => {
-      let obj = {};
-      for (let key of Object.keys(item)) {
-        obj[key] = item[key];
-      }
-      for (let key of Object.keys(obj)) {
-        let value = obj[key];
-        let re = new RegExp("W*(" + query + ")W*");
-        if (re.test(value.toString().toLowerCase())) {
-          return true;
-        } else if (re.test(value)) {
-          return true;
-        }
-      }
-    })
-    return filtered
-  }
+
 
   render() {
     const { search, data } = this.state
@@ -220,11 +203,11 @@ export default class index extends PureComponent {
         >
         </Input>
         <CustomTable
-          data={search ? this.searchOnData(search, data) : data}
+          data={data}
           headers={["Nombre", "Apellido", "Teléfono", "Correo", "Edad"]}
           labels={["name", "lastName", "phone", "email", "age"]}
           defaultPages={10}
-          isSearching={search}
+          searchQuery={search} //Optional
         />
       </div >
     )
