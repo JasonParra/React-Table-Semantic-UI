@@ -5,13 +5,14 @@
 React Component example of semantic-ui table featuring sorting, page footer and global search bar.
 
 ### Features
+
 1. Sorting
 2. Page footer
 3. Search bar
 
-### Example App
+### Example Demo
 
-[live example](https://sleepy-wave-02762.herokuapp.com/)
+[Demo](https://sleepy-wave-02762.herokuapp.com/)
 
 ### Prerequisites
 
@@ -24,6 +25,7 @@ nodejs
 ```
 npn install
 ```
+
 ### Running
 
 ```
@@ -58,5 +60,3 @@ npm run dev
 ### Screenshots
 
 ![alt text](./assets/capture_1.png)
-
-
