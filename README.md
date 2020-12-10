@@ -12,7 +12,8 @@ React Component example of semantic-ui table featuring sorting, page footer and 
 
 ### Example Demo
 
-[Demo](https://sleepy-wave-02762.herokuapp.com/)
+[Netlify] (https://naughty-edison-ff64c1.netlify.app/)
+[Heroku] (https://sleepy-wave-02762.herokuapp.com/)
 
 ### Prerequisites
 
