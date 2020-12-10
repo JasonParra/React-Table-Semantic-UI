@@ -66,7 +66,7 @@ class CustomTable extends PureComponent {
 	};
 
 	searchOnData = (query, data) => {
-		const filtered = data.filter((item) => {
+		return data.filter((item) => {
 			let obj = {};
 			for (let key of Object.keys(item)) {
 				obj[key] = item[key];
@@ -84,8 +84,8 @@ class CustomTable extends PureComponent {
 					return false;
 				}
 			}
+			return false;
 		});
-		return filtered;
 	};
 
 	renderHeaders = () => {
@@ -123,7 +123,7 @@ class CustomTable extends PureComponent {
 	};
 
 	getData = () => {
-		const { data, searchQuery, defaultPages } = this.props;
+		const { data, searchQuery } = this.props;
 		const { pageSelection, header } = this.state;
 
 		let _data = data || [];
