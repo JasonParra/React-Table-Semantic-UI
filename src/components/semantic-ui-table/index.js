@@ -66,26 +66,28 @@ class CustomTable extends PureComponent {
 	};
 
 	searchOnData = (query, data) => {
-		return data.filter((item) => {
-			let obj = {};
-			for (let key of Object.keys(item)) {
-				obj[key] = item[key];
-			}
-			for (let key of Object.keys(obj)) {
-				try {
-					let value = obj[key];
-					let re = new RegExp("W*(" + query + ")W*");
-					if (re.test(value.toString().toLowerCase())) {
-						return true;
-					} else if (re.test(value)) {
-						return true;
+		return query
+			? data.filter((item) => {
+					let obj = {};
+					for (let key of Object.keys(item)) {
+						obj[key] = item[key];
 					}
-				} catch (e) {
+					for (let key of Object.keys(obj)) {
+						try {
+							let value = obj[key];
+							let re = new RegExp("W*(" + query + ")W*");
+							if (re.test(value.toString().toLowerCase())) {
+								return true;
+							} else if (re.test(value)) {
+								return true;
+							}
+						} catch (e) {
+							return false;
+						}
+					}
 					return false;
-				}
-			}
-			return false;
-		});
+			  })
+			: data;
 	};
 
 	renderHeaders = () => {
@@ -110,9 +112,7 @@ class CustomTable extends PureComponent {
 
 	handleFooter = (i) => {
 		const { defaultPages, data, searchQuery } = this.props;
-		const pagesQ = Math.ceil(
-			(searchQuery ? this.searchOnData(searchQuery, data) : data).length / defaultPages
-		);
+		const pagesQ = Math.ceil(this.searchOnData(searchQuery, data).length / defaultPages);
 
 		if (i >= 0 && i < pagesQ)
 			this.setState({
@@ -156,17 +156,25 @@ class CustomTable extends PureComponent {
 		);
 	};
 
-	renderFotter = () => {
+	renderFooter = () => {
 		const { defaultPages, labels, data, searchQuery } = this.props;
 		const { page } = this.state;
-		const pagesQ = Math.ceil(
-			(searchQuery ? this.searchOnData(searchQuery, data) : data).length / (defaultPages || 10)
-		);
 
 		let pages = [];
+		let footerPages = defaultPages || 10;
+		const pagesQ = Math.ceil(this.searchOnData(searchQuery, data).length / footerPages);
 
-		for (let i = 1; i <= pagesQ; i++) {
-			pages = [...pages, i];
+		if (pagesQ > footerPages) {
+			const limitDown = page < footerPages ? 1 : Math.floor(page / footerPages) * footerPages;
+			const limitUp = limitDown + (page < footerPages ? 9 : footerPages);
+
+			for (let i = limitDown; i <= limitUp; i++) {
+				pages = [...pages, i];
+			}
+		} else {
+			for (let i = 1; i <= pagesQ; i++) {
+				pages = [...pages, i];
+			}
 		}
 
 		return (
@@ -204,7 +212,7 @@ class CustomTable extends PureComponent {
 			<Table celled>
 				{this.renderHeaders()}
 				{this.renderData()}
-				{this.renderFotter()}
+				{this.renderFooter()}
 			</Table>
 		);
 	}
