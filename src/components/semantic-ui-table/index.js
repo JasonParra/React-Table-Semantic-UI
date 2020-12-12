@@ -22,11 +22,7 @@ class CustomTable extends PureComponent {
 		const { searchQuery, defaultPages } = this.props;
 		if (searchQuery) {
 			if (this.state.searchQuery !== this.props.searchQuery)
-				this.setState({
-					searchQuery,
-					pageSelection: [0, defaultPages],
-					page: 0,
-				});
+				this.setState({ searchQuery, pageSelection: [0, defaultPages], page: 0 });
 		}
 	};
 
@@ -47,13 +43,17 @@ class CustomTable extends PureComponent {
 	};
 
 	handleSort = (header) => {
-		const { defaultPages } = this.props;
-		this.setState({
-			header,
-			[header]: this.state[header] === "asc" ? "desc" : "asc",
-			pageSelection: [0, defaultPages],
-			page: 0,
+		const { defaultPages, headers } = this.props;
+		let obj = {};
+
+		headers.forEach((item) => {
+			obj = {
+				...obj,
+				[item]: item !== header ? "" : this.state[item] === "asc" ? "desc" : "asc",
+			};
 		});
+
+		this.setState({ header, pageSelection: [0, defaultPages], page: 0, ...obj });
 	};
 
 	getSort = (header, data) => {
@@ -139,11 +139,11 @@ class CustomTable extends PureComponent {
 
 	renderData = () => {
 		const { labels } = this.props;
-		const _data = this.getData();
+		const data = this.getData();
 
 		return (
 			<Table.Body>
-				{(_data || []).map((item, index) => (
+				{(data || []).map((item, index) => (
 					<Table.Row key={index}>
 						{(labels || []).map((label, index) => (
 							<Table.Cell key={index}>
