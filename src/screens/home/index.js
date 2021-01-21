@@ -39,8 +39,9 @@ export default class index extends PureComponent {
 					data={data}
 					headers={["Nombre", "Apellido", "Teléfono", "Correo", "Edad"]}
 					labels={["name", "lastName", "phone", "email", "age"]}
-					defaultPages={10}
+					pageRows={10} //Optional
 					searchQuery={search} //Optional
+					footerPages={10} //Optional
 				/>
 			</div>
 		);

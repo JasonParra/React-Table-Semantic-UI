@@ -6,23 +6,23 @@ import Styles from "./style.module.css";
 class CustomTable extends PureComponent {
 	state = {
 		page: 0,
-		pageSelection: null,
+		pageSelection: "",
 		searchQuery: "",
 		header: "",
 	};
 
 	componentDidMount = () => {
-		const { defaultPages } = this.props;
+		const { pageRows = 10 } = this.props;
 		this.setState({
-			pageSelection: [0, defaultPages],
+			pageSelection: [0, pageRows],
 		});
 	};
 
 	componentDidUpdate = () => {
-		const { searchQuery, defaultPages } = this.props;
+		const { searchQuery, pageRows = 10 } = this.props;
 		if (searchQuery) {
 			if (this.state.searchQuery !== this.props.searchQuery)
-				this.setState({ searchQuery, pageSelection: [0, defaultPages], page: 0 });
+				this.setState({ searchQuery, pageSelection: [0, pageRows], page: 0 });
 		}
 	};
 
@@ -43,7 +43,7 @@ class CustomTable extends PureComponent {
 	};
 
 	handleSort = (header) => {
-		const { defaultPages, headers } = this.props;
+		const { pageRows = 10, headers } = this.props;
 		let obj = {};
 
 		headers.forEach((item) => {
@@ -53,7 +53,7 @@ class CustomTable extends PureComponent {
 			};
 		});
 
-		this.setState({ header, pageSelection: [0, defaultPages], page: 0, ...obj });
+		this.setState({ header, pageSelection: [0, pageRows], page: 0, ...obj });
 	};
 
 	getSort = (header, data) => {
@@ -111,13 +111,12 @@ class CustomTable extends PureComponent {
 	};
 
 	handleFooter = (i) => {
-		const { defaultPages, data, searchQuery } = this.props;
-		const pagesQ = Math.ceil(this.searchOnData(searchQuery, data).length / defaultPages);
+		const { pageRows = 10, data, searchQuery } = this.props;
+		const pagesQ = Math.ceil(this.searchOnData(searchQuery, data).length / pageRows);
 
 		if (i >= 0 && i < pagesQ)
 			this.setState({
-				pageSelection:
-					i === 0 ? [0, defaultPages] : [i * defaultPages, i * defaultPages + defaultPages],
+				pageSelection: i === 0 ? [0, pageRows] : [i * pageRows, i * pageRows + pageRows],
 				page: i,
 			});
 	};
@@ -156,25 +155,30 @@ class CustomTable extends PureComponent {
 		);
 	};
 
+	getLastLimitDown = (pagesQ, footerPages) => {
+		let LastLimitDown = 0;
+
+		while (pagesQ > 0) {
+			pagesQ -= footerPages;
+			LastLimitDown += footerPages;
+		}
+
+		return LastLimitDown - footerPages - 1;
+	};
+
 	renderFooter = () => {
-		const { defaultPages, labels, data, searchQuery } = this.props;
+		const { pageRows = 10, labels, data, searchQuery, footerPages = 10 } = this.props;
 		const { page } = this.state;
 
 		let pages = [];
-		let footerPages = defaultPages || 10;
-		const pagesQ = Math.ceil(this.searchOnData(searchQuery, data).length / footerPages);
+		const pagesQ = Math.ceil(this.searchOnData(searchQuery, data).length / pageRows);
 
-		if (pagesQ > footerPages) {
-			const limitDown = page < footerPages ? 1 : Math.floor(page / footerPages) * footerPages;
-			const limitUp = limitDown + (page < footerPages ? 9 : footerPages);
+		const limitDown = page < footerPages ? 1 : Math.floor(page / footerPages) * footerPages + 1;
+		const limitUp =
+			page > this.getLastLimitDown(pagesQ, footerPages) ? pagesQ : limitDown + footerPages - 1;
 
-			for (let i = limitDown; i <= limitUp; i++) {
-				pages = [...pages, i];
-			}
-		} else {
-			for (let i = 1; i <= pagesQ; i++) {
-				pages = [...pages, i];
-			}
+		for (let i = limitDown; i <= limitUp; i++) {
+			pages = [...pages, i];
 		}
 
 		return (
