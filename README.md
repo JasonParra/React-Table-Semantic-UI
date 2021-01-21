@@ -39,7 +39,7 @@ npm run dev
 <CustomTable
 	data={[
 	{
-	    name: "jason",
+	  name: "jason",
 		lastName: "parra",
 		phone: "+1 (555) 333 4444",
 		email: "example1@gmail.com",
@@ -55,9 +55,9 @@ npm run dev
 	]}
 	headers={["Nombre", "Apellido", "Teléfono", "Correo", "Edad"]}
 	labels={["name", "lastName", "phone", "email", "age"]}
-	pageRows={10}        //Optional
 	searchQuery={search} //Optional
-	footerPages={10}     //Optional
+	pageRows={10}        //Optional, 10 by default
+	footerPages={10}     //Optional, 10 by default
 />
 ```
 
