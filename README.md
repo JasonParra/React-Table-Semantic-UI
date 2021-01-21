@@ -36,29 +36,29 @@ npm run dev
 ### Simple Example Usage
 
 ```
-	<CustomTable
-					data={[
-						{
-							name: "jason",
-							lastName: "parra",
-							phone: "+1 (555) 333 4444",
-							email: "example1@gmail.com",
-							age: "20",
-						},
-						{
-							name: "Juan",
-							lastName: "Perez",
-							phone: "+1 (888) 500 2220",
-							email: "example2@gmail.com",
-							age: "35",
-						},
-					]}
-					headers={["Nombre", "Apellido", "Teléfono", "Correo", "Edad"]}
-					labels={["name", "lastName", "phone", "email", "age"]}
-					searchQuery={search} //Optional
-					pageRows={10} //Optional, 10 by default
-					footerPages={10} //Optional, 10 by default
-				/>
+<CustomTable
+	data={[
+		{
+		 name: "jason",
+		 lastName: "parra",
+		 phone: "+1 (555) 333 4444",
+		 email: "example1@gmail.com",
+		 age: "20",
+		},
+		{
+		 name: "Juan",
+		 lastName: "Perez",
+		 phone: "+1 (888) 500 2220",
+		 email: "example2@gmail.com",
+		 age: "35",
+		},
+	]}
+	headers={["Nombre", "Apellido", "Teléfono", "Correo", "Edad"]}
+	labels={["name", "lastName", "phone", "email", "age"]}
+	searchQuery={search} //Optional
+	pageRows={10} //Optional, 10 by default
+	footerPages={10} //Optional, 10 by default
+/>
 ```
 
 ### Screenshots
