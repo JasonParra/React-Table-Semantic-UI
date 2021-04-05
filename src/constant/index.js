@@ -28,7 +28,7 @@ export const data = [
 		age: "29",
 	},
 	{
-		name: "Miguel",
+		name: "Alejandro",
 		lastName: "Sanchez",
 		phone: "+1 (300) 100 2000",
 		email: "example5@gmail.com",
