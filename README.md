@@ -23,13 +23,13 @@ nodejs
 ### Installing
 
 ```
-npn install
+yarn install
 ```
 
 ### Running
 
 ```
-npm run dev
+yarn start
 ```
 
 ### Simple Example Usage

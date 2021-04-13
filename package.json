@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "12.18.0",
-    "npm": "6.13.7"
+    "node": "14.16.0",
+    "yarn": "1.22.10"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -14,16 +14,13 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^1.2.1",
-    "serve": "^11.3.2"
+    "semantic-ui-react": "^1.2.1"
   },
   "scripts": {
-    "dev": "react-scripts start",
-    "start": "serve -s build",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
